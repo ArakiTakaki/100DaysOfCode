@@ -1,10 +1,13 @@
 package config
 
-import "github.com/urfave/cli"
+import (
+	"github.com/urfave/cli"
+)
 
-// Config アプリのコンフィグ
+// App アプリのコンフィグ
 func App(app *cli.App) {
-	app.Name = "boom"
-	app.Usage = "make an explosive entrrance"
+	app.Name = "interact"
+	app.Usage = "頑張ろう"
 	app.Version = "0.0.1"
+	app.UsageText = "teststeste"
 }
