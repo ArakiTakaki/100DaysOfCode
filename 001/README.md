@@ -3,15 +3,14 @@ Railsライクな感じでDB生成やモデル生成を手伝う的なモノを�
 
 # Commands
 `interact テーブル名 レコード名 型`
-すべてスネークケースで
 
 `interact Test Value string`
 
 ↓
 
 ```
-type Model struct{
+type Test struct{
   gorm.Model
-  Table: int
+  Value: string
 }
 ```
