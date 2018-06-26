@@ -8,7 +8,8 @@ import (
 )
 // TODO ドライバの指定の仕方は考える必要がある。
 
-type 1 struct {
-  gorm.Model
-  2:3
+type User struct {
+	gorm.Model
+		Test string `gorm:&#34;not null&#34;`
+
 }

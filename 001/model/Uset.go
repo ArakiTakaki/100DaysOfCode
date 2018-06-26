@@ -8,7 +8,8 @@ import (
 )
 // TODO ドライバの指定の仕方は考える必要がある。
 
-type {{.ModelName}} struct {
+type Uset struct {
 	gorm.Model
-	{{.Attributes}}
+		Test string `gorm:&#34;not null&#34;`
+
 }

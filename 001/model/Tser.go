@@ -8,7 +8,10 @@ import (
 )
 // TODO ドライバの指定の仕方は考える必要がある。
 
-type {{.ModelName}} struct {
+type Tser struct {
 	gorm.Model
-	{{.Attributes}}
+	
+	TestCel int
+	TestCel2 string
+	created_at time.Time
 }

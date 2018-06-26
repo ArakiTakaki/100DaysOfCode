@@ -1,10 +1,10 @@
 package commands
 
 import (
-	"errors"
 	"fmt"
 	"html/template"
 	"os"
+	"strings"
 
 	"github.com/urfave/cli"
 )
@@ -19,36 +19,85 @@ func Foundation() cli.Command {
 	return foundation
 }
 
+// FuncMap test
+type FuncMap map[string]interface{}
+
 func action(c *cli.Context) error {
 	args := c.Args()
-	if len(args) < 3 {
-		return errors.New("値が不正です。")
-	}
 
 	table := args[0]
-	// record := args[1:]
+	record := args[1:]
 
-	// テンプレートファイルの選択
-	tmp, err := template.ParseFiles("./template/foundation.go.tmpl")
-
-	// ディレクトリの生成
 	os.MkdirAll("./model", os.ModeDir)
 	os.MkdirAll("./db", os.ModeDir)
 
-	// ファイルの作成
-	file, err := os.Create("./model/" + table + ".go")
-	if err != nil {
-		fmt.Println("ディレクトリの作成に失敗しました。")
-		panic(err)
-	}
-
-	// ファイルの書き込み
-	err = tmp.Execute(file, nil)
-
-	if err != nil {
-		fmt.Println("ファイルの書き込みに失敗しました。")
-		panic(err)
-	}
+	createFile(table, record...)
+	// ディレクトリの生成
 
 	return nil
+}
+
+func createFile(table string, record ...string) {
+
+	var attributes string
+	// テンプレートファイルの選択
+	// ファイルの作成
+
+	tmp, err := template.ParseFiles("./template/foundation.go.tmpl")
+	isPanic(err, "テンプレートが読み込めませんでした。")
+
+	file, err := os.Create("./model/" + table + ".go")
+	isPanic(err, "モデルが作成できませんでした。")
+
+	for _, v := range record {
+		value, err := createAttributes(v)
+		attributes += value
+		isPanic(err, "createAttributesでエラーを起こしました。")
+	}
+
+	var builtins = FuncMap{
+		"ModelName":  table,
+		"Attributes": attributes,
+	}
+	// ファイルの書き込み
+	err = tmp.Execute(file, builtins)
+	isPanic(err, "ファイルへ書き込めませんでした。")
+
+}
+
+// craeteAttributes Table:Attribute:primary_key
+func createAttributes(data string) (string, error) {
+	work := strings.Split(data, ":")
+	data = "\t" + work[0] + " " + work[1]
+	if len(work) > 2 {
+		data += setProps(work[2:]...)
+	}
+
+	data += "\n"
+	return data, nil
+}
+
+func setProps(data ...string) string {
+
+	for i, s := range data {
+		if s == "not_null" {
+			data[i] = "not null"
+		}
+	}
+
+	var work string
+	work += " `gorm:"
+	work += "\""
+	work += strings.Join(data, ";")
+	work += "\""
+	work += "`"
+	fmt.Println(work)
+	return work
+}
+
+func isPanic(work error, message string) {
+	if work != nil {
+		fmt.Println(message)
+		panic(work)
+	}
 }
