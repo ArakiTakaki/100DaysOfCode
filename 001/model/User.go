@@ -10,6 +10,9 @@ import (
 
 type User struct {
 	gorm.Model
-		Test string `gorm:&#34;not null&#34;`
+		Id string
+	Pass string
+	Name string `gorm:&#34;not null&#34;`
+	BitrhDay time.Time `gorm:&#34;not_null1&#34;`
 
 }
