@@ -1,20 +1,39 @@
 package foundation
 
 import (
+	"errors"
 	"fmt"
 	"html/template"
 	"os"
 	"strings"
 )
 
+// FuncMap funcmap
 type FuncMap map[string]interface{}
 
+// Create create
 func Create(args []string) {
 	table := args[0]
 	record := args[1:]
+	swt := IsExist(table)
+	if swt {
+		isPanic(errors.New("CreateError"), "既にテーブルが存在しています。")
+	}
 	createDir()
 	createFile(table, record...)
 	// ディレクトリの生成
+}
+
+// Update update
+func Update(args []string) {
+	table := args[0]
+	record := args[1:]
+	swt := IsExist(table)
+	if !swt {
+		isPanic(errors.New("UpdateError"), "テーブルが見当たりません")
+	}
+	createDir()
+	createFile(table, record...)
 
 }
 
@@ -24,7 +43,6 @@ func createDir() {
 }
 
 func createFile(table string, record ...string) {
-
 	var attributes string
 	tmp, err := template.ParseFiles("./template/foundation.go.tmpl")
 	isPanic(err, "テンプレートが読み込めませんでした。")

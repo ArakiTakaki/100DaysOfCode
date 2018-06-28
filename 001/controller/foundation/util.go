@@ -16,5 +16,8 @@ func isPanic(work error, message string) {
 func IsExist(table string) bool {
 	table = "./model/" + table + ".go"
 	_, err := os.Stat(table)
-	return err != nil
+	if err != nil {
+		return false
+	}
+	return true
 }

@@ -1,8 +1,6 @@
 package commands
 
 import (
-	"fmt"
-
 	"../controller/foundation"
 	"github.com/urfave/cli"
 )
@@ -17,25 +15,17 @@ func Foundation() cli.Command {
 	return foundation
 }
 
-// FuncMap test
-// @TODO 今度フラグ作ろう というか多分newとかそこらへんフラグで管理をするんだろうなぁ
 func action(c *cli.Context) error {
 	args := c.Args()
 	status := args[0]
 	params := args[1:]
 
-	if status == "new" {
-		stat := foundation.IsExist(params[0])
-		if stat {
-			foundation.Create(params)
-			foundation.AddHistroy(params[0])
-		} else {
-			fmt.Println("既にテーブルが存在しています、変更したい場合`update`を使用してください。")
-		}
-	}
-
-	if status == "update" {
+	if status == "new" || status == "n" {
 		foundation.Create(params)
+		foundation.AddHistroy(params[0])
+	}
+	if status == "update" || status == "u" {
+		foundation.Update(params)
 	}
 
 	if status == "migrate" {
