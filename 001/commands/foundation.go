@@ -1,7 +1,7 @@
 package commands
 
 import (
-	"../controller/foundation"
+	"github.com/ArakiTakaki/100DaysOfCode/001/controller/foundation"
 	"github.com/urfave/cli"
 )
 
@@ -9,7 +9,7 @@ import (
 func Foundation() cli.Command {
 	foundation := cli.Command{
 		Name:   "foundation",
-		Usage:  "DBの生成を行います",
+		Usage:  "DBの生成、編集を行います",
 		Action: action,
 	}
 	return foundation
@@ -28,7 +28,8 @@ func action(c *cli.Context) error {
 		foundation.Update(params)
 	}
 
-	if status == "migrate" {
+	if status == "migration" || status == "m" {
+		foundation.Migration()
 	}
 
 	return nil
