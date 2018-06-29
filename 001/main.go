@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"./app"
+	"github.com/ArakiTakaki/100DaysOfCode/001/app"
 )
 
 func main() {

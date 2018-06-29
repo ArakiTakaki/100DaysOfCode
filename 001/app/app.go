@@ -1,8 +1,8 @@
 package app
 
 import "github.com/urfave/cli"
-import "../config"
-import "../commands"
+import "github.com/ArakiTakaki/100DaysOfCode/001/config"
+import "github.com/ArakiTakaki/100DaysOfCode/001/commands"
 
 func Get() *cli.App {
 	app := cli.NewApp()
