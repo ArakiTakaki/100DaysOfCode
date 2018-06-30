@@ -22,12 +22,27 @@ func UseMySQL() MySQL {
 	return MySQL{}
 }
 
+// SetUser user
+func (d MySQL) SetUser(userName string) {
+	d.User = userName
+}
+
+// SetPassword pass
+func (d MySQL) SetPassword(password string) {
+	d.Password = password
+}
+
 // SetAddress adr
 func (d MySQL) SetAddress(data string) {
 	if data != "localhost" {
 		d.Address = "tcp(" + data + ":3306)"
 	}
 	d.Address = "lodalhost"
+}
+
+// SetDBName dbname
+func (d MySQL) SetDBName(dbname string) {
+	d.DBName = dbname
 }
 
 func (d MySQL) parse() string {

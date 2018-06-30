@@ -38,7 +38,7 @@ func Update(args []string) {
 }
 
 func createDir() {
-	os.MkdirAll("./model", os.ModeDir)
+	os.MkdirAll("./models", os.ModeDir)
 	os.MkdirAll("./db", os.ModeDir)
 }
 

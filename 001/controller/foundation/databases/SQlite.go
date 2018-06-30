@@ -2,6 +2,7 @@ package databases
 
 import "github.com/jinzhu/gorm"
 
+// SQLite SQLite3を使用する。 UseSQLite(dirname string)
 type SQLite struct {
 	Dir string
 }
