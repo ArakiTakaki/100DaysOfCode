@@ -22,6 +22,31 @@ func Create(args []string) {
 	createDir()
 	createFile(table, record...)
 	// ディレクトリの生成
+	createMigrate()
+}
+
+func createMigrate() {
+	file, err := os.OpenFile("./db/history.dat", os.O_RDONLY, 0)
+	isPanic(err, "/db/history.datフォルダが読み込めませんでした")
+	dat := FileRead(file)
+	migrationMessage()
+	var work string
+	for _, v := range strings.Split(dat, "\n") {
+		work += "db.AutoMigrate(&models." + v + "{})"
+	}
+	tmp, err := template.ParseFiles("./template/migration.go.tmpl")
+	isPanic(err, "テンプレートが読み込めませんでした。")
+
+	var builtins = FuncMap{
+		"ModelName":  "migration",
+		"Attributes": work,
+	}
+
+	file, err = os.Create("./db/migration.go")
+	isPanic(err, "migrationが作成できませんでした。")
+	err = tmp.Execute(file, builtins)
+	isPanic(err, "ファイルへ書き込めませんでした。")
+	file.Close()
 }
 
 // Update update
@@ -58,7 +83,7 @@ func createFile(table string, record ...string) {
 		"Attributes": attributes,
 	}
 	// ファイルの書き込み
-	file, err := os.Create("./model/" + table + ".go")
+	file, err := os.Create("./models/" + table + ".go")
 	isPanic(err, "モデルが作成できませんでした。")
 	err = tmp.Execute(file, builtins)
 	isPanic(err, "ファイルへ書き込めませんでした。")

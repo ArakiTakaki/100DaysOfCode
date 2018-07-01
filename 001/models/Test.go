@@ -6,7 +6,8 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type {{.ModelName}} struct {
+type Test struct {
 	gorm.Model
-	{{.Attributes}}
+		test string
+
 }
