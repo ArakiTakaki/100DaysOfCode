@@ -3,9 +3,9 @@ package foundation
 import (
 	"errors"
 	"fmt"
-	"html/template"
 	"os"
 	"strings"
+	"text/template"
 )
 
 // FuncMap funcmap
@@ -44,6 +44,7 @@ func createMigrate() {
 
 	file, err = os.Create("./db/migration.go")
 	isPanic(err, "migrationが作成できませんでした。")
+
 	err = tmp.Execute(file, builtins)
 	isPanic(err, "ファイルへ書き込めませんでした。")
 	file.Close()
