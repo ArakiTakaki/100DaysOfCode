@@ -6,8 +6,8 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type Test struct {
+type Testttttt6 struct {
 	gorm.Model
-		NEW string
+		Name string
 
 }

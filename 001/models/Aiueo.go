@@ -6,8 +6,8 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type Test struct {
+type Aiueo struct {
 	gorm.Model
-		NEW string
+		Name string
 
 }

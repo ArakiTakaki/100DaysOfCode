@@ -1,13 +1,13 @@
 package db
 
-import (
-	"os"
 
-	"github.com/ArakiTakaki/100DaysOfCode/001/controller/foundation/databases"
+import (
+	"github.com/ArakiTakaki/100DaysOfCode/001/models"
+	"github.com/jinzhu/gorm"
 	// MySQL
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-func Migration (*gorm.DB){
+func Migration(db *gorm.DB) {
 	{{.Attributes}}
 }

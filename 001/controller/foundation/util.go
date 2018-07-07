@@ -5,12 +5,7 @@ import (
 	"os"
 )
 
-func isPanic(work error, message string) {
-	if work != nil {
-		fmt.Println(message)
-		panic(work)
-	}
-}
+type utilInterface interface{}
 
 // IsExist 存在チェック(なかったらtrue)
 func IsExist(table string) bool {
@@ -41,5 +36,11 @@ func FileRead(file *os.File) string {
 		cash += string(buf[:n])
 	}
 	return cash
+}
 
+func isPanic(work error, message string) {
+	if work != nil {
+		fmt.Println(message)
+		panic(work)
+	}
 }

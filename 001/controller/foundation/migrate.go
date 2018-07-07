@@ -1,6 +1,8 @@
 package foundation
 
 import (
+	"fmt"
+
 	"github.com/ArakiTakaki/100DaysOfCode/001/controller/foundation/databases"
 	"github.com/ArakiTakaki/100DaysOfCode/001/db"
 	// MySQL
@@ -24,6 +26,8 @@ func migrationMessage() {
 	dbacc.LogMode(true)
 	isPanic(err, "データベースへ接続できませんでした")
 	defer dbacc.Close()
+
+	fmt.Println("test")
 	db.Migration(dbacc)
 
 }

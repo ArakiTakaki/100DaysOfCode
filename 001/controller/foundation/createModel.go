@@ -6,6 +6,8 @@ import (
 	"os"
 	"strings"
 	"text/template"
+
+	"github.com/ArakiTakaki/100DaysOfCode/001/app/util"
 )
 
 // FuncMap funcmap
@@ -32,22 +34,17 @@ func createMigrate() {
 	migrationMessage()
 	var work string
 	for _, v := range strings.Split(dat, "\n") {
-		work += "db.AutoMigrate(&models." + v + "{})"
-	}
-	tmp, err := template.ParseFiles("./template/migration.go.tmpl")
-	isPanic(err, "テンプレートが読み込めませんでした。")
-
-	var builtins = FuncMap{
-		"ModelName":  "migration",
-		"Attributes": work,
+		work += "db.AutoMigrate(&models." + v + "{})\n"
 	}
 
-	file, err = os.Create("./db/migration.go")
-	isPanic(err, "migrationが作成できませんでした。")
-
-	err = tmp.Execute(file, builtins)
-	isPanic(err, "ファイルへ書き込めませんでした。")
-	file.Close()
+	fmt.Println(work)
+	f := util.GetTextGenerater()
+	f.SetFilePath("./db/migration.go")
+	f.SetTmplate("./template/migration.go.tmpl")
+	f.SetTitle("migration.go")
+	f.SetContent(work)
+	err = f.Excute()
+	isPanic(err, "ファイルが生成できませんでした:migration")
 }
 
 // Update update
